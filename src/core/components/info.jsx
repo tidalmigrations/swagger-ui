@@ -100,7 +100,7 @@ export default class Info extends React.Component {
           { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
           { url && <a target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></a> }
         </hgroup>
-
+        <img className="logo" src="logo.png" width="200" />
         <div className="description">
           <Markdown source={ description } />
         </div>
