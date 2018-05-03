@@ -7,6 +7,7 @@
 
     hgroup.main
     {
+        display: inline-block;
         margin: 0 0 20px 0;
         a
         {
@@ -14,9 +15,9 @@
         }
     }
     img.logo {
-        position:  absolute;
-        top: 5%;
-        right: 25%;
+        display: inline-block;
+        position: relative;
+        bottom: -20px;
     }
     p, li, table
     {
