@@ -7,11 +7,17 @@
 
     hgroup.main
     {
+        display: inline-block;
         margin: 0 0 20px 0;
         a
         {
             font-size: 12px;
         }
+    }
+    img.logo {
+        display: inline-block;
+        position: relative;
+        bottom: -23px;
     }
     p, li, table
     {
