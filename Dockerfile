@@ -16,7 +16,9 @@ ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
 
-RUN apk add --update nginx
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+
+RUN apk add --update 'nginx=1.16.0-r4'
 RUN mkdir -p /run/nginx
 
 COPY nginx.conf /etc/nginx/
