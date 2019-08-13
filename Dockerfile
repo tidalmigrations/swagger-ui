@@ -1,6 +1,4 @@
-FROM alpine:3.5
-
-MAINTAINER fehguy
+FROM nginx:alpine
 
 ENV VERSION "v2.2.10"
 ENV FOLDER "swagger-ui-2.2.10"
@@ -15,9 +13,6 @@ ENV OAUTH_ADDITIONAL_PARAMS "**None**"
 ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
-
-RUN apk add --update nginx
-RUN mkdir -p /run/nginx
 
 COPY nginx.conf /etc/nginx/
 
