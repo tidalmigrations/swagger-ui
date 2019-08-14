@@ -2,6 +2,49 @@
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
 
+## Deployment for Team Tidal
+
+Current steps to deploy are done manually. Involves, building a docker image, pushing it to ECR and updating (via terraform) the ECS image referenced on the cluster.
+
+### Build docker image
+
+Retrieve the login command to use to authenticate your Docker client to your registry.
+Use the AWS CLI:
+
+```
+$(aws ecr get-login --no-include-email --region ca-central-1)
+```
+
+Note: If you receive an "Unknown options: --no-include-email" error when using the AWS CLI, ensure that you have the latest version installed.
+
+Build your Docker image using the following command:
+
+```
+git_sha=$(git rev-parse HEAD)
+docker build -t 535558409775.dkr.ecr.ca-central-1.amazonaws.com/swagger:$git_sha
+```
+
+### Push image to ECR
+
+Run the following command to push this image to your newly created AWS repository:
+
+```
+docker push 535558409775.dkr.ecr.ca-central-1.amazonaws.com/swagger:$git_sha
+```
+
+This should result in an image version residing here:
+https://ca-central-1.console.aws.amazon.com/ecr/repositories/swagger/?region=ca-central-1
+
+### Deployment
+
+Deployment is done by updating the value for the `version` variable configured via Terraform - https://github.com/tidalmigrations/infrastructure-live/blob/master/main/ca-central-1/production/services/swagger/terraform.tfvars#L46
+
+- Update the value in the `terraform.tfvars` file  to the value of `$git_sha`. ie. the same value that the docker image was tagged with when it was created in the earlier steps.
+- Follow the standard terraform deployment pattern and execute:
+    - `terragrunt plan` - to confirm the changes being made.
+    - `terragrunt apply` - to make the change and update the version
+    - commit the version change to git and push to master for the `infrastructure-modules` repository
+
 ## New!
 
 **This is the new version of swagger-ui, 3.x. Want to learn more? Check out our [FAQ](http://swagger.io/new-ui-faq/).**
